@@ -1,0 +1,63 @@
+#! /c/iverilog/bin/vvp
+:ivl_version "0.9.7 " "(v0_9_7)";
+:vpi_time_precision - 12;
+:vpi_module "system";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_01293F68 .scope module, "tb_counter" "tb_counter" 2 3;
+ .timescale -9 -12;
+v01298B58_0 .var "clk", 0 0;
+v01298BB0_0 .net "count", 31 0, v012932A0_0; 1 drivers
+v01298C08_0 .var "rst", 0 0;
+S_012931C0 .scope module, "uut" "simple_counter" 2 7, 3 1, S_01293F68;
+ .timescale 0 0;
+v01293248_0 .net "clk", 0 0, v01298B58_0; 1 drivers
+v012932A0_0 .var "count", 31 0;
+v01298B00_0 .net "rst", 0 0, v01298C08_0; 1 drivers
+E_01294D10 .event posedge, v01298B00_0, v01293248_0;
+    .scope S_012931C0;
+T_0 ;
+    %wait E_01294D10;
+    %load/v 8, v01298B00_0, 1;
+    %jmp/0xz  T_0.0, 8;
+    %ix/load 0, 32, 0;
+    %assign/v0 v012932A0_0, 0, 0;
+    %jmp T_0.1;
+T_0.0 ;
+    %load/v 8, v012932A0_0, 32;
+    %mov 40, 0, 1;
+    %addi 8, 1, 33;
+    %ix/load 0, 32, 0;
+    %assign/v0 v012932A0_0, 0, 8;
+T_0.1 ;
+    %jmp T_0;
+    .thread T_0;
+    .scope S_01293F68;
+T_1 ;
+    %delay 5000, 0;
+    %load/v 8, v01298B58_0, 1;
+    %inv 8, 1;
+    %set/v v01298B58_0, 8, 1;
+    %jmp T_1;
+    .thread T_1;
+    .scope S_01293F68;
+T_2 ;
+    %set/v v01298B58_0, 0, 1;
+    %set/v v01298C08_0, 1, 1;
+    %delay 12000, 0;
+    %set/v v01298C08_0, 0, 1;
+    %delay 50000, 0;
+    %vpi_call 2 23 "$finish";
+    %end;
+    .thread T_2;
+    .scope S_01293F68;
+T_3 ;
+    %vpi_call 2 28 "$monitor", "Time=%0t | Reset=%b | Count=0%d | Binary=%b", $time, v01298C08_0, v01298BB0_0, v01298BB0_0;
+    %end;
+    .thread T_3;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "tb_counter.v";
+    "simple_counter2.v";
