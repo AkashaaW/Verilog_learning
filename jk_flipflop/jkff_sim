@@ -1,0 +1,82 @@
+#! /c/iverilog/bin/vvp
+:ivl_version "0.9.7 " "(v0_9_7)";
+:vpi_time_precision - 12;
+:vpi_module "system";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_01223248 .scope module, "tb_jkflipflop" "tb_jkflipflop" 2 3;
+ .timescale -9 -12;
+v012279A8_0 .var "J", 0 0;
+v01227A00_0 .var "K", 0 0;
+v01227A58_0 .net "Q", 0 0, v01223FC8_0; 1 drivers
+v01227AB0_0 .var "clk", 0 0;
+v01227B08_0 .var "rst", 0 0;
+S_01223EE8 .scope module, "uut" "jk_flipflop" 2 8, 3 1, S_01223248;
+ .timescale 0 0;
+v01263F78_0 .net "J", 0 0, v012279A8_0; 1 drivers
+v01223F70_0 .net "K", 0 0, v01227A00_0; 1 drivers
+v01223FC8_0 .var "Q", 0 0;
+v012278F8_0 .net "clk", 0 0, v01227AB0_0; 1 drivers
+v01227950_0 .net "rst", 0 0, v01227B08_0; 1 drivers
+E_01228418 .event posedge, v01227950_0, v012278F8_0;
+    .scope S_01223EE8;
+T_0 ;
+    %wait E_01228418;
+    %load/v 8, v01227950_0, 1;
+    %jmp/0xz  T_0.0, 8;
+    %ix/load 0, 1, 0;
+    %assign/v0 v01223FC8_0, 0, 0;
+    %jmp T_0.1;
+T_0.0 ;
+    %load/v 8, v01223FC8_0, 1;
+    %inv 8, 1;
+    %load/v 9, v01263F78_0, 1;
+    %and 8, 9, 1;
+    %load/v 9, v01223F70_0, 1;
+    %inv 9, 1;
+    %load/v 10, v01223FC8_0, 1;
+    %and 9, 10, 1;
+    %or 8, 9, 1;
+    %ix/load 0, 1, 0;
+    %assign/v0 v01223FC8_0, 0, 8;
+T_0.1 ;
+    %jmp T_0;
+    .thread T_0;
+    .scope S_01223248;
+T_1 ;
+    %delay 5000, 0;
+    %load/v 8, v01227AB0_0, 1;
+    %inv 8, 1;
+    %set/v v01227AB0_0, 8, 1;
+    %jmp T_1;
+    .thread T_1;
+    .scope S_01223248;
+T_2 ;
+    %set/v v01227AB0_0, 0, 1;
+    %set/v v01227B08_0, 1, 1;
+    %set/v v012279A8_0, 0, 1;
+    %set/v v01227A00_0, 0, 1;
+    %vpi_call 2 25 "$monitor", "Time=%0t j=%b K=%b Q=%b", $time, v012279A8_0, v01227A00_0, v01227A58_0;
+    %delay 10000, 0;
+    %set/v v01227B08_0, 0, 1;
+    %set/v v012279A8_0, 0, 1;
+    %set/v v01227A00_0, 0, 1;
+    %delay 10000, 0;
+    %set/v v012279A8_0, 1, 1;
+    %set/v v01227A00_0, 0, 1;
+    %delay 10000, 0;
+    %set/v v012279A8_0, 0, 1;
+    %set/v v01227A00_0, 1, 1;
+    %delay 10000, 0;
+    %set/v v012279A8_0, 1, 1;
+    %set/v v01227A00_0, 1, 1;
+    %delay 20000, 0;
+    %vpi_call 2 45 "$finish";
+    %end;
+    .thread T_2;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "tb_jkflipflop.v";
+    "jk_flipflop.v";
